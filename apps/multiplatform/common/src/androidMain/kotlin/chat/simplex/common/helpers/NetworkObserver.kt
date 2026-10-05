@@ -55,9 +55,16 @@ class NetworkObserver {
 
   private fun networkCapabilitiesChanged(capabilities: NetworkCapabilities) {
     connectivityManager ?: return
+    val androidValidatedInternet =
+      capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+        capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     val info = UserNetworkInfo(
       networkType = networkTypeFromCapabilities(capabilities),
-      online = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED),
+      // Kantverse experiment v0.1:
+      // keep the SimpleX networking engine awake even when Android does not
+      // report validated Internet. Actual traffic is still expected to use
+      // the user-configured SOCKS proxy (127.0.0.1:9050 in our test).
+      online = androidValidatedInternet || KANTVERSE_NETWORK_WAKE_EXPERIMENT,
     )
     if (prevInfo != info) {
       prevInfo = info
@@ -67,7 +74,12 @@ class NetworkObserver {
 
   private fun networkLost() {
     Log.d(TAG, "Network changed: lost")
-    val none = UserNetworkInfo(networkType = UserNetworkType.NONE, false)
+    val none = UserNetworkInfo(
+      networkType = UserNetworkType.NONE,
+      // Experimental only: do not tell the backend to go offline merely
+      // because Android lost its default/validated Internet network.
+      online = KANTVERSE_NETWORK_WAKE_EXPERIMENT,
+    )
     prevInfo = none
     setNetworkInfo(none)
   }
@@ -100,6 +112,10 @@ class NetworkObserver {
   }
 
   companion object {
+    // This fork-only flag exists solely to test Kantverse as an alternative
+    // SOCKS/nearby transport. It is not an upstream SimpleX behaviour change.
+    private const val KANTVERSE_NETWORK_WAKE_EXPERIMENT = true
+
     val shared = NetworkObserver()
   }
 }
