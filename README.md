@@ -1,16 +1,3 @@
-> [!IMPORTANT]
-> **Unofficial SimpleX × Kantverse transport experiment**
->
-> This fork is an experimental interoperability test by the Kantverse project. It is **not an official SimpleX Chat release** and is not affiliated with or endorsed by the SimpleX project.
->
-> The experiment keeps the Android SimpleX networking engine awake even when Android does not report a validated Internet connection. The intended test path is:
->
-> `SimpleX experimental client → SOCKS 127.0.0.1:9050 → Kantverse Offline Relay → Google Nearby Connections → nearby gateway phone → Internet → SimpleX network`
->
-> **Current scope:** test whether SimpleX can initiate and remain active while the sender phone itself has Wi-Fi/mobile Internet disabled. This does **not** yet prove end-to-end message delivery over Kantverse; delivery/TLS behaviour remains a separate test.
->
-> Upstream SimpleX code remains licensed under AGPLv3. SimpleX names, logos, branding and graphic assets have separate terms; see the upstream `TRADEMARK.md` and `ASSETS_LICENSE.md`.
-
 [![build](https://github.com/simplex-chat/simplex-chat/actions/workflows/build.yml/badge.svg?branch=stable)](https://github.com/simplex-chat/simplex-chat/actions/workflows/build.yml)
 [![GitHub downloads](https://img.shields.io/github/downloads/simplex-chat/simplex-chat/total)](https://github.com/simplex-chat/simplex-chat/releases)
 [![GitHub release](https://img.shields.io/github/v/release/simplex-chat/simplex-chat)](https://github.com/simplex-chat/simplex-chat/releases)
