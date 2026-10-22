@@ -1,30 +1,7 @@
 name: build
 
 on:
-  push:
-    branches:
-      - master
-      - stable
-    tags:
-      - "v*"
-      - "!*-fdroid"
-      - "!*-armv7a"
-  pull_request:
-    paths:
-      - "src/**"
-      - "apps/simplex-chat/**"
-      - "apps/simplex-bot/**"
-      - "apps/simplex-bot-advanced/**"
-      - "apps/simplex-broadcast-bot/**"
-      - "apps/simplex-directory-service/**"
-      - "tests/**"
-      - "bots/src/**"
-      - "simplex-chat.cabal"
-      - "cabal.project"
-      - "Dockerfile*"
-      - "scripts/ci/**"
-      - "scripts/desktop/**"
-      - ".github/**"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
