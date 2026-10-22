@@ -1,16 +1,7 @@
 name: Build Eleventy
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - website/**
-      - images/**
-      - blog/**
-      - docs/**
-      - .github/workflows/web.yml
-      - PRIVACY.md
+  workflow_dispatch:
 
 jobs:
   build:
